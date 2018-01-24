@@ -2,6 +2,12 @@ package bonusTasks;
 
 import java.util.concurrent.TimeUnit;
 
+/**
+ * The program creates a stopwatch that tracks time in milliseconds.
+ *
+ * @version 1.0 2018-01-24
+ * @author Oscar Brink
+ */
 public class Stopwatch {
 
     private boolean started;
@@ -9,40 +15,36 @@ public class Stopwatch {
     private long startTime;
     
     public static void main(String[] args) {
-        Stopwatch s = new Stopwatch();
-        System.out.println(s.isStarted());
-        System.out.println(s.time());
-        s.start();
+        /* try catch required for TimeUnit.MILLISECONDS.sleep() */
         try {
+            Stopwatch s = new Stopwatch();
+
+            /* Check that watch is off and time is 0 at start. */
+            System.out.println(
+                    "isStarted: " + s.isStarted() + " time: " + s.time()
+            );
+            /* Check that boolean started has changed */
+            s.start();
+            System.out.println("isStarted: " + s.isStarted() + "\n");
+
+            /* Wait 3 seconds and check if time is 3000 ms. */
             TimeUnit.MILLISECONDS.sleep(3000);
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        System.out.println(s.time());
-        try {
-            TimeUnit.MILLISECONDS.sleep(1000);
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        System.out.println(s.time());
-        
-        s.stop();
-        s.reset();
-        s.start();
-        for (int i = 0; i < 5; i++) {
-            System.out.print(s.time());
-            try {
+            System.out.println("pre reset: " + s.time());
+            /* Stop and reset, check if time is now 0. */
+            s.stop();
+            s.reset();
+            System.out.println("post reset: " + s.time() + "\n");
+
+            /* counts up 5 seconds and prints out the time. */
+            s.start();
+            for (int i = 1; i <= 5; i++) {
                 TimeUnit.MILLISECONDS.sleep(1000);
-            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                System.out.print(i + " seconds: " + s.time() + "\n");
             }
-            System.out.print(" " + s.time() + "\n");
-            //s.reset();
+            s.stop();
+
         }
-        s.stop();
+        catch (InterruptedException e) {}
     }
     
     public Stopwatch() {
@@ -54,11 +56,10 @@ public class Stopwatch {
         if (isStarted()) {
             return;
         }
-        System.out.println("test");
         startTime = System.currentTimeMillis();
         started = true;
     }
-    
+
     public void stop() {
         if (!isStarted()) {
             return;
@@ -67,7 +68,11 @@ public class Stopwatch {
         startTime = 0;
         started = false;
     }
-    
+
+    public boolean isStarted() {
+        return started;
+    }
+
     public void reset() {
         if (isStarted()) {
             /* If the watch is on, it will reset to 0, but keep running. */
@@ -75,20 +80,12 @@ public class Stopwatch {
         }
         currentTime = 0;
     }
-    
-    public boolean isStarted() {
-        return started;
-    }
-    
+
     public long time() {
-        if (startTime != 0) {
-            currentTime += System.currentTimeMillis() - startTime;
-        }
-        
+        /* if the watch is started it has to calculate the new time first. */
         if (isStarted()) {
+            currentTime += System.currentTimeMillis() - startTime;
             startTime = System.currentTimeMillis();
-        } else {
-            startTime = 0;
         }
         return currentTime;
     }
