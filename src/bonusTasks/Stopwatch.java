@@ -14,7 +14,7 @@ public class Stopwatch {
     private long currentTime;
     private long startTime;
     
-    public static void main(String[] args) {
+    public static void m1ain(String[] args) {
         /* try catch required for TimeUnit.MILLISECONDS.sleep() */
         try {
             Stopwatch s = new Stopwatch();
