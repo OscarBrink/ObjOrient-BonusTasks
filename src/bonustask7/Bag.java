@@ -15,7 +15,7 @@ interface Weighable {
  *
  * @param <E> What type of content the bag will contain
  */
-public class Bag<E> implements Weighable{
+public class Bag<E> implements Weighable {
 
     private Pair<E, Integer> contents;
 
@@ -34,18 +34,23 @@ public class Bag<E> implements Weighable{
         System.out.println(bag);
     }
 
-    public Bag() {}
+    public Bag() {
+        contents = new Pair<E, Integer>(null, 0);
+    }
 
     public void fillBagWith(E content, int weight) {
         if (!isEmpty()) {
+            /* Bag has to be emptied before we can fill it. */
             emptyBag();
         }
+
         contents = new Pair<E, Integer>(content, weight);
     }
 
     public Pair<E, Integer> emptyBag() {
+        /* Only empty if bag is already empty. */
         if (isEmpty()) {
-            return new Pair<E, Integer>(null, 0);
+            return contents;
         }
 
         Pair<E, Integer> returnValue = contents;
@@ -59,7 +64,13 @@ public class Bag<E> implements Weighable{
 
     private boolean isEmpty() {
         try {
-            return contents.getKey() == null;
+            /*
+            If the bag is empty contents.getKey will
+            generate a NullPointerException.
+            Otherwise the method returns false
+            */
+            contents.getKey();
+            return false;
         }
         catch (NullPointerException e) {
             return true;
