@@ -6,35 +6,56 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
 
+/**
+ * Class implements a simple image viewer that displays an image from a URL.
+ *
+ * @author Oscar Brink
+ */
 public class ImageViewer extends JFrame {
-
-    private boolean image1;
 
     public ImageViewer(String s) {
         super(s);
-        image1 = true;
     }
 
     public static void main(String args[]) {
         try {
-            JFrame frame = new ImageViewer("LOL");
+            JFrame frame = new ImageViewer("ImageViewer");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-            URL img1URL = new URL("http://www.sm.luth.se/csee/courses/d0010e/l/prob/10tj5Ei9o/LTU-Teatern.jpg");
-            URL img2URL = new URL("http://www.sm.luth.se/csee/courses/d0010e/l/prob/10tj5Ei9o/LTU-Vetenskapens-hus.jpg");
+            // URLs that link to the images the program will show.
+            URL img1URL = new URL(
+                    "http://www.sm.luth.se/csee/courses/d0010e/" +
+                            "l/prob/10tj5Ei9o/LTU-Teatern.jpg"
+            );
+            URL img2URL = new URL(
+                    "http://www.sm.luth.se/csee/courses/d0010e/" +
+                            "l/prob/10tj5Ei9o/LTU-Vetenskapens-hus.jpg"
+            );
             JPanel panel = new JPanel();
+
             Icon image1 = new ImageIcon(ImageIO.read(img1URL));
             Icon image2 = new ImageIcon(ImageIO.read(img2URL));
+
             JLabel imageLabel = new JLabel(image1);
             JButton button = new JButton("Change");
 
             class ButtonController implements ActionListener {
+                /*
+                on controls which image is currently showing. true for image1
+                and false for image2.
+                 */
                 private boolean on;
 
-                public ButtonController() {
+                /**
+                 * Constructor
+                 */
+                ButtonController() {
                     this.on = true;
                 }
 
+                /**
+                 * Method called when button is pressed. Changes the image.
+                 */
                 public void actionPerformed(ActionEvent arg0) {
                     on = !on;
                     if (on) {
@@ -54,8 +75,6 @@ public class ImageViewer extends JFrame {
             frame.setVisible(true);
 
         } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Something went wrong.");
         }
 
     }
